@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move element &apos;手机信息.xml&apos; to &apos;XMLDmeo&apos;&#x0D;&#x0A;- Original project: &apos;DOm4j&apos;&#x0D;&#x0A;- Destination element: &apos;XMLDmeo&apos;&#x0D;&#x0A;- Original element: &apos;手机信息.xml&apos;&#x0D;&#x0A;- Update references to refactored element" description="Move file" destination="=XMLDmeo" element1="手机信息.xml" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1556935336063" units="0" version="1.0"/>
+</session>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;application.yml&apos; to &apos;SPringboot/src/main/resources&apos;&#x0D;&#x0A;- Original project: &apos;springboottest&apos;&#x0D;&#x0A;- Destination element: &apos;SPringboot/src/main/resources&apos;&#x0D;&#x0A;- Original element: &apos;application.yml&apos;" description="Copy file" destination="=SPringboot/src\/main\/resources" element1="src/main/java/resources/application.yml" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1566719459621" units="0" version="1.0"/>
+</session>

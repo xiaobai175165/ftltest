@@ -1,0 +1,13 @@
+1560410965110	Rename type 'Flower'
+1560410985390	Rename type 'FlowerDaoImpl'
+1560411005106	Rename type 'FlowerDao'
+1560411058552	Rename type 'FlowerService'
+1560411070542	Rename type 'FlowerServiceImpl'
+1560411192362	Rename resource 'flower'
+1560412218639	Rename resource 'flowerlist.jsp'
+1560412510293	Delete element
+1560412532110	Rename package 'cn.kgc.tangcco.zhangdi.flower'
+1560412921347	Delete element
+1560415897911	Rename resource 'addflower.jsp'
+1560417778226	Delete element
+1560417782070	Delete element
