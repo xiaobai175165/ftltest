@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan("com.kgc.ftltest.dao")
 @EnableTransactionManagement
 public class FtltestApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(FtltestApplication.class, args);
     }

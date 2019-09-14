@@ -30,6 +30,7 @@ public class Useraction {
     @RequestMapping("{name}/dohahah")
     public String hahah(@PathVariable(value = "name" ,required = false)String name, HttpServletRequest request){
         System.out.println("name="+name);
-        return  "doindex";
+        request.setAttribute("name",name);
+        return  "toindex";
     }
 }

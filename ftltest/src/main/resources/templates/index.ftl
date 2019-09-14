@@ -9,6 +9,7 @@
 <h1 align="center">Hello:</h1>
 <#list userlist as u>
     <p>${u.name}</p>
+    <a href="${u.name}/dohahah">name</a>
 </#list>
 </body>
 </html>
