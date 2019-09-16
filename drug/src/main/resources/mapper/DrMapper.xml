@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kgc.drug.dao.DrugDao">
+ <insert id="addDrug" parameterType="com.kgc.drug.entity.Drug">
+     insert into drugtable values(null,#{dname},#{pinyin},#{bases},#{character},#{function},#{userlevel},#{untowardeffect},#{announcements},#{specification},#{periodofvalidity},#{approvalnumber},#{supplierId},#{photo},#{amount},#{price},#{typeid},2);
+ </insert>
+ <select id="getAllMin" resultType="com.kgc.drug.entity.Drug">
+     select *from mintype
+ </select>
+   <select id="getDrugById" parameterType="int" resultType="com.kgc.drug.entity.Drug">
+     select * from drugtable where did=#{id}
+ </select>
+  <select id="getAllDrug1" parameterType="int" resultType="com.kgc.drug.entity.Drug">
+     select * from drugtable where supplierId=#{id}
+ </select>
+ <select id="getAllDrug" resultMap="s">
+     select d.*,m.minname,m.typeid AS `type` from drugtable d left join mintype m on d.typeid=m.minid where supplierId=#{id} limit #{num},#{pageSize}
+ </select>
+ <resultMap type="com.kgc.drug.entity.Drug1" id="s">
+    <id column="did" property="id" />
+	<result column="dname" property="dname" />
+	<result column="pinyin" property="pinyin" />
+	<result column="bases" property="bases" />
+	<result column="character" property="character" />
+	<result column="function" property="function" />
+	<result column="userlevel" property="userlevel" />
+	<result column="untowardeffect" property="untowardeffect" />
+	<result column="announcements" property="announcements" />
+	<result column="specification" property="specification" />
+	<result column="periodofvalidity" property="periodofvalidity" />
+	<result column="approvalnumber" property="approvalnumber" />
+	<result column="supplierId" property="supplierId"/>
+	<result column="photo" property="photo" />
+	<result column="amount" property="amount" />
+	<result column="price" property="price" />
+	<result column="typeid" property="typeid" />
+    <result column="status" property="status" />
+    <association property="min" javaType="com.kgc.drug.entity.Mintype">
+        <result column="minname" property="minname"/>
+        <result column="type" property="typeid"/>
+    </association>
+ </resultMap>
+ <update id="updateCount">
+     update drugtable set amount=#{count},price=#{price},status=2 where did=#{id}
+ </update>
+ <delete id="deleteDrug" parameterType="int">
+     delete from drugtable where did=#{id}
+ </delete>
+    <select id="getTimeOrder" resultMap="tj">
+	select * from  `order` o,drugtable d where o.drugid=d.did and buytime &gt; #{goTime} and buytime  &lt; #{toTime} and udid=#{uid}
+	<if test="xuanze==1">
+	and takestatus in (0,1,3)
+	</if>
+	<if test="xuanze==2">
+	and takestatus in (2,4)
+	</if>
+	</select>
+	 <select id="getTimeOrder2" resultMap="tj">
+	select * from  `order` o,drugtable d where o.drugid=d.did and buytime &gt; #{goTime} and buytime  &lt; #{toTime} and uid=#{uid}
+	<if test="xuanze==1">
+	and takestatus in (0,1,3)
+	</if>
+	<if test="xuanze==2">
+	and takestatus in (2,4)
+	</if>
+	</select>
+	 <select id="getTimeOrder5" resultMap="tj">
+	select * from  `order` o,drugtable d where o.drugid=d.did and buytime &gt; #{goTime} and buytime  &lt; #{toTime}
+
+	</select>
+	 <select id="getTimeOrder6" resultMap="tj">
+	select * from  `order` o,drugtable d where o.drugid=d.did and buytime &gt; #{goTime} and buytime  &lt; #{toTime} limit #{num},#{pageSize}
+	</select>
+	<resultMap type="com.kgc.drug.entity.Order1" id="tj">
+			<id column="oid" property="oid" />
+			<result column="drugid" property="drugid" />
+			<result column="totalPrice" property="totalPrice" />
+			<result column="buytime" property="buytime" />
+			<result column="taketime" property="taketime" />
+			<result column="takestatus" property="takestatus" />
+			<result column="udid" property="udid"/>
+	        <association property="drug" javaType="com.kgc.drug.entity.Drug">
+			    <id property="did" column="did"/>
+			    <result property="dname" column="dname"/>
+	        </association>
+	</resultMap>
+	<select id="getTimeOrder1" resultMap="asd">
+	select * from  `order` o,drugtable d where o.drugid=d.did and buytime &gt; #{goTime} and buytime  &lt; #{toTime} and udid=#{uid} 
+	<if test="xuanze==1">
+	and takestatus in (0,1,3)
+	</if>
+	<if test="xuanze==2">
+	and takestatus in (2,4)
+	</if>
+	limit #{num},#{pageSize}
+	</select>
+		<select id="getTimeOrder3" resultMap="asd">
+	select * from  `order` o,drugtable d where o.drugid=d.did and buytime &gt; #{goTime} and buytime  &lt; #{toTime} and uid=#{uid} 
+	<if test="xuanze==1">
+	and takestatus in (0,1,3)
+	</if>
+	<if test="xuanze==2">
+	and takestatus in (2,4)
+	</if>
+	limit #{num},#{pageSize}
+	</select>
+	<resultMap type="com.kgc.drug.entity.Order1" id="asd">
+			<id column="oid" property="oid" />
+			<result column="drugid" property="drugid" />
+			<result column="totalPrice" property="totalPrice" />
+			<result column="buytime" property="buytime" />
+			<result column="taketime" property="taketime" />
+			<result column="takestatus" property="takestatus" />
+			<result column="udid" property="udid"/>
+	        <association property="drug" javaType="com.kgc.drug.entity.Drug">
+			    <id property="did" column="did"/>
+			    <result property="dname" column="dname"/>
+	        </association>
+	</resultMap>
+</mapper>

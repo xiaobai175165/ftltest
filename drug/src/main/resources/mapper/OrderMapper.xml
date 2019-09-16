@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kgc.drug.dao.OrderMapper">
+    <insert id="addSales" parameterType="com.kgc.drug.entity.Sales">
+         insert into sales values(#{sid},#{drugid},#{totalPrice},#{buytime},#{returnCause},now(),#{returnPic},#{uid},#{udid},0)
+    </insert>
+    <select id="getOrderById" parameterType="java.lang.String" resultType="com.kgc.drug.entity.Order">
+    select * from `order` where oid=#{oid}
+    </select>
+	<resultMap type="com.kgc.drug.entity.Sales" id="sales">
+		<id column="sid" property="sid" />
+		<result column="totalPrice" property="totalPrice" />
+		<result column="buytime" property="buytime" />
+		<result column="returnCause" property="returnCause" />
+		<result column="returntime" property="returntime" />
+		<result column="returnPic" property="returnPic" />
+		<association property="drugtable" javaType="com.kgc.drug.entity.DrugTable">
+			<result column="dname" property="dname" />
+		</association>
+	</resultMap>
+	
+	<!--退货订单  -->
+	<select id="ordeFind"  resultMap="sales">
+	    select *from sales s left join drugtable d on s.drugid=d.did where uid=#{id} order by returntime desc
+	    <if test="pageSize!=null">
+	    limit #{num},#{pageSize}
+	     </if>
+	</select>
+		<!-- 一对一手动映射 -->
+		<!-- 商品 -->
+	<resultMap type="com.kgc.drug.entity.Order" id="order">
+		<id column="oid" property="oid" />
+		
+		<result column="totalprice" property="totalprice" />
+		<result column="buytime" property="buytime" />
+		<result column="taketime" property="taketime" />
+		<result column="takestatus" property="takestatus" />
+		<result column="count" property="count" />
+		
+		<!-- property="" 属性名 -->
+		<association property="users" javaType="com.kgc.drug.entity.Users">
+			<id column="uid" property="uid" />
+			<result column="status" property="status" />
+			<result column="uname" property="uname" />
+			<result column="password" property="password" />
+			<result column="icbc" property="icbc" />
+			<result column="identity" property="identity" />
+			<result column="email" property="email" />
+			<result column="address" property="address" />
+		</association>
+		
+		<association property="drugtable" javaType="com.kgc.drug.entity.Drugtable1">
+			<id column="did" property="didi" />
+			<result column="dname" property="dname" />
+			<result column="pinying" property="pinying" />
+			<result column="bases" property="bases" />
+			<result column="character" property="character" />
+			<result column="function" property="function" />
+			<result column="userlevel" property="userlevel" />
+			<result column="untowardEffect" property="untowardeffect" />
+			<result column="announcements" property="announcements" />
+			<result column="specification" property="specification" />
+			<result column="periodofvalidity" property="periodofvalidity" />
+			<result column="approvalnumber" property="approvalnumber" />
+			<result column="photo" property="photo" />
+			<result column="price" property="price" />
+			<result column="typeid" property="typeid" />
+			
+			<!-- property="" 属性名 -->
+			<association property="supplierId" javaType="com.kgc.drug.entity.Users">
+				<id column="uid" property="uid" />
+				<result column="status" property="status" />
+				<result column="uname" property="uname" />
+				<result column="password" property="password" />
+				<result column="icbc" property="icbc" />
+				<result column="identity" property="identity" />
+				<result column="email" property="email" />
+				<result column="address" property="address" />
+			</association>
+		</association>
+	</resultMap>
+	<select id="findOrder" resultMap="order">
+	SELECT* FROM `order` ,drugtable,users WHERE  order.uid=users.uid AND order.drugid=drugtable.did and order.uid=#{id} order by order.buytime desc
+	<if test="pageSize!=null">
+	limit #{num},#{pageSize}
+	</if>
+	</select>
+	<!-- 修改订单状态为 已收货 -->
+	<update id="updataOrderTakestatus" >
+		UPDATE `order` SET takestatus=2,taketime=now() WHERE oid=#{oid}
+	</update>
+	<!-- 修改订单状态为 退货 -->
+	<update id="updataOrderTakestatus2" >
+		UPDATE `order` SET takestatus=3 WHERE oid=#{oid}
+	</update>
+	 
+
+	
+</mapper>

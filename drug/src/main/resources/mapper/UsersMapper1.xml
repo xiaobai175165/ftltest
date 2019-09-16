@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kgc.drug.dao.UserDao">
+	<select id="login"  resultType="com.kgc.drug.entity.Users">
+	select * from users  where uname=#{uname} and password=#{password}
+	</select>
+	
+	<insert id="addUsers" parameterType="com.kgc.drug.entity.Users">
+	insert into users values (null,#{uname},#{password},#{status},#{icbc},#{identity},#{email},#{address},2)
+	</insert>
+	
+	<select id="ajaxUname" resultType="int">
+		select count(1) from users where uname=#{uname}
+	</select>
+
+	
+	
+	
+</mapper>

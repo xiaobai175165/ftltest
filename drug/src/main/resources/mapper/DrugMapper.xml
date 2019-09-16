@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.kgc.drug.dao.DrugDao1">
+
+	<select id="getMaxtype" resultType="com.kgc.drug.entity.Maxtype">
+		select * from maxtype
+	</select>
+	
+	
+	<select id="getType" resultType="com.kgc.drug.entity.Mintype">
+		select * from mintype 
+	</select>
+	
+	<select id="querydrug" resultMap="r1">
+	select did,supplierId,price from drugtable where did=#{did}
+	</select>
+	<select id="getDrug" resultMap="rm1">
+		SELECT * FROM drugtable,users WHERE drugtable.supplierId=users.uid 
+		<if test="typeid!=0">
+			and typeid=#{typeid}
+		</if>
+		<if test="dname!=null">
+			and dname like concat('%',#{dname},'%')
+		</if>
+		limit #{currPage},#{pageSize}
+	</select>
+	<resultMap type="com.kgc.drug.entity.Drug" id="rm1">
+		<id property="did" column="did"/>
+			<result column="dname" property="dname" />
+			<result column="pinyin" property="pinyin" />
+			<result column="bases" property="bases" />
+			<result column="character" property="character" />
+			<result column="function" property="function" />
+			<result column="userlevel" property="userlevel" />
+			<result column="untowardeffect" property="untowardeffect" />
+			<result column="announcements" property="announcements" />
+			<result column="specification" property="specification" />
+			<result column="periodofvalidity" property="periodofvalidity" />
+			<result column="approvalnumber" property="approvalnumber" />
+			<result column="photo" property="photo" />
+			<result column="price" property="price" />
+			<result column="typeid" property="typeid" />
+		<association property="users" javaType="com.kgc.drug.entity.Users">
+			<id property="uid" column="uid"/>
+			<result property="uname" column="uname"/>
+			<result property="password" column="password"/>
+			<result property="status" column="status"/>
+			<result property="icbc" column="icbc"/>
+			<result property="identity" column="identity"/>
+			<result property="email" column="email"/>
+			<result property="address" column="address"/>
+		</association>
+	</resultMap>
+	
+	<select id="getCount" resultType="int">
+		select count(*) from drugtable 
+		<where>
+			<if test="typeid!=0">
+			typeid=#{typeid}
+		</if>
+		<if test="dname!=null">
+			and dname like concat('%',#{dname},'%')
+		</if>
+		</where>
+	</select>
+	
+	<select id="getDrugByDid" resultMap="rm1">
+		select * FROM drugtable INNER JOIN users ON drugtable.supplierId=users.uid where did=#{did}
+	</select>
+	
+	<select id="getDrugByName" parameterType="java.lang.String" resultMap="rm1">
+		select * from drugtable INNER JOIN users ON drugtable.supplierId=users.uid where dname like concat('%',#{dname},'%')
+	</select>
+	
+	<insert id="addgouwuche">
+	insert into cart values(null,#{drugid},now(),#{uid},#{count})
+	</insert>
+	<insert id="addOrder" parameterType="com.kgc.drug.entity.Order">
+		insert into `order` values(#{oid},#{drugid},#{totalprice},now(),null,0,#{uid},#{count},#{udid})
+	</insert>
+	<select id="getAllCartByDid" resultMap="rm2">
+		select * from cart c left join drugtable d on d.did=c.drugid left join users u on u.uid=c.uid where c.uid=#{uid}
+	</select>
+	<delete id="deleteCartByCid">
+	delete from cart where cid=#{cid}
+	</delete>
+	<resultMap type="com.kgc.drug.entity.Cart" id="rm2">
+	<id property="cid" column="cid"/>
+	<result property="drugid" column="drugid"/>
+	<result property="addtime" column="addtime"/>
+	<result property="count" column="count"/>
+	<association property="drug"  javaType="com.kgc.drug.entity.Drug">
+	<id property="did" column="did"/>
+			<result column="dname" property="dname" />
+			<result column="pinyin" property="pinyin" />
+
+			<result column="bases" property="bases" />
+			<result column="character" property="character" />
+			<result column="function" property="function" />
+			<result column="userlevel" property="userlevel" />
+			<result column="untowardeffect" property="untowardeffect" />
+			<result column="announcements" property="announcements" />
+			<result column="specification" property="specification" />
+			<result column="periodofvalidity" property="periodofvalidity" />
+			<result column="approvalnumber" property="approvalnumber" />
+			<result column="photo" property="photo" />
+			<result column="price" property="price" />
+			<result column="typeid" property="typeid" />
+			<association property="users" javaType="com.kgc.drug.entity.Users">
+			<id property="uid" column="uid"/>
+			<result property="uname" column="uname"/>
+			<result property="password" column="password"/>
+			<result property="status" column="status"/>
+			<result property="icbc" column="icbc"/>
+			<result property="identity" column="identity"/>
+			<result property="email" column="email"/>
+			<result property="address" column="address"/>
+		</association>
+	</association>
+	</resultMap>
+	<resultMap type="com.kgc.drug.entity.DrugTable" id="r1">
+		<id column="did" property="didi" />
+		<result column="dname" property="dname" />
+		<result column="pinying" property="pinying" />
+		<result column="supplierId" property="supplierId" />
+		<result column="bases" property="bases" />
+		<result column="character" property="character" />
+		<result column="function" property="function" />
+		<result column="userlevel" property="userlevel" />
+		<result column="untowardEffect" property="untowardEffect" />
+		<result column="announcements" property="announcements" />
+		<result column="specification" property="specification" />
+		<result column="periodofvalidity" property="periodofvalidity" />
+		<result column="approvalnumber" property="approvalnumber" />
+		<result column="photo" property="photo" />
+		<result column="price" property="price" />
+		<result column="typeid" property="typeid" />
+	</resultMap>
+
+	
+</mapper>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        <mapper namespace="com.kgc.drug.dao.OrderDao">
+        <select id="queryuser"  resultType="com.kgc.drug.entity.Users">
+        select * from users where uid=#{id}
+        </select>
+        <select id="queryorders" resultType="com.kgc.drug.entity.Order">
+        select * from `order` where udid=#{udid} and takestatus=0;
+        </select>
+         <select id="limitorder" resultType="com.kgc.drug.entity.Order">
+        select * from `order` where udid=#{udid} and takestatus=0 order by buytime desc 
+        <if test="page!=null">
+        limit #{page},#{size}
+        </if>
+        </select>
+         <select id="limitsales" resultType="com.kgc.drug.entity.Sales">
+        select * from `sales` where  udid=#{udid} and status=0 order by returntime desc 
+        <if test="page!=null">
+        limit #{page},#{size}
+        </if>
+        </select>
+         <select id="querySaless" resultType="com.kgc.drug.entity.Sales">
+        select * from `sales` where  udid=#{udid} and status=0
+        </select>
+        <select id="queryusers" resultType="com.kgc.drug.entity.Users">
+        select * from users
+        </select>
+        <select id="queryDrugs" resultMap="r1">
+        select * from drugtable
+        </select>
+             <select id="querySales" parameterType="java.lang.String" resultType="com.kgc.drug.entity.Sales">
+        select * from `sales` where sid=#{sid} and status=0
+        </select> 
+          <select id="queryor" parameterType="java.lang.String" resultType="com.kgc.drug.entity.Order">
+        select * from `order` where oid=#{oid} 
+        </select> 
+        <select id="queryDrug" resultMap="r1">
+        select * from drugtable where did=#{id}
+        </select>
+        <update id="updatestatus" parameterType="java.lang.String">
+        update `order` set takestatus=1 where oid=#{oid}
+        </update>
+        <update id="updatasales" parameterType="java.lang.String">
+        update `sales` set status=1 where sid=#{oid}
+        </update>
+        <update id="updataor" parameterType="java.lang.String">
+        update `order` set takestatus=4 where oid=#{oid}
+        </update>
+        <update id="updatekucun">
+        update drugtable set amount=(amount-#{count}) where did=#{did}
+        </update>
+        <update id="updatamima">
+         update users set uname=#{uname},email=#{email},address=#{address},password=#{password} where uid=#{uid}
+        </update>
+        <resultMap type="com.kgc.drug.entity.DrugTable" id="r1">
+        <id column="did" property="didi" />
+			<result column="dname" property="dname" />
+			<result column="pinying" property="pinying" />
+			<result column="supplierId" property="supplierId" />
+			<result column="bases" property="bases" />
+			<result column="character" property="character" />
+			<result column="function" property="function" />
+			<result column="userlevel" property="userlevel" />
+			<result column="untowardEffect" property="untowardeffect" />
+			<result column="announcements" property="announcements" />
+			<result column="specification" property="specification" />
+			<result column="periodofvalidity" property="periodofvalidity" />
+			<result column="approvalnumber" property="approvalnumber" />
+			<result column="photo" property="photo" />
+			<result column="price" property="price" />
+			<result column="typeid" property="typeid" />
+        </resultMap>
+        </mapper>
